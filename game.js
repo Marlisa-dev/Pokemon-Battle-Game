@@ -20,17 +20,12 @@ chooseEnemyButton.disabled = true;
 function restartGame(){
     resetUI(playerImage, playerName, playerStat);
     resetUI(enemyImage, enemyName, enemyStat);
-	playerImage.src = ""
-	playerName.innerText = ""
-	playerStat.innerText = ""
-	enemyImage.src = ""
-	enemyName.innerText = ""
-	enemyStat.innerText = ""
 	playerCount.innerText = "0"
 	enemyCount.innerText = "0"
 	playerWin = 0
 	enemyWin = 0
-	choosePokemonButton.disabled = false
+	choosePokemonButton.disabled = false;
+    // chooseEnemyButton.disabled = true;
 }
 
 // Reset UI for player or enemy
@@ -41,3 +36,33 @@ function resetUI(image, name, stat) {
 }
 
 // function to select pokemon
+function playerRound(){
+    // fetch data from pokemon api
+    function getPokemons(){
+        fetch("https://pokeapi.co/api/v2/pokemon?limit=1")
+        .then(res => res.json())
+        .then(function(pokemonData){
+            pokemonData.results.forEach(function(pokemon){
+                getPokemonData(pokemon)
+            })
+        })
+    }
+    getPokemons()
+    function getPokemonData(pokemon){
+        const randomNumber = Math.floor(Math.random() * 151) + 1;
+        let url = `https://pokeapi.co/api/v2/pokemon${randomNumber}`
+        fetch(url)
+        .then(res => res.json())
+        .then(pokemonData => {
+            showPokemon(pokemonData)
+        })
+    }
+    function showPokemon(pokemonData){
+        // display pokemon selection on UI
+        playerImage.src = pokemonData.sprites.other ["official-artwork"] ["front-default"]
+		playerName.innerText = pokemonData.forms[0].name
+		playerStat.innerText = pokemonData.stats[0].base_stat
+    }
+    choosePokemonButton.disabled = true;
+    chooseEnemyButton.disabled = false;
+}
