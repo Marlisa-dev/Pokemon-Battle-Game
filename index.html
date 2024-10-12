@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Pokemon Battle Game</title>
+</head>
+<body>
+    <header>
+        <img src="./images/pokemon-logo-png-1421.png" alt="Pokemon-Image" class="logo-img">
+    </header>
+
+        <!-- Game Display Body -->
+    <div class="game-area" id="game-area">
+		<section class="player">
+			<div class="card">
+				<div class="pokemon-info">
+					<p>Name: <span id="player-name"></span></p>
+					<p>Stats: <span id="player-stat" class="class-value" value=0></span></p>		
+				</div>
+				<img src="" alt="" id="player-image">
+			</div>
+			<h4 class="wins">WINS: <span id="player-count" value="0"></span></h4>
+		</section>
+		<section class="enemy">
+			<div class="card">
+				<div class="pokemon-info">
+					<p>Name: <span id="enemy-name"></span></p>
+					<p>Stats: <span id="enemy-stat" class="stat-value" value=0></span></p>		
+				</div>
+				<img src="" alt="" id="enemy-image">
+			</div>
+			<h4 class="wins">WINS: <span id="enemy-count" value="0"></span></h4>
+		</section>
+    </div>
+
+    <!-- Buttons Area -->
+    <footer>
+		<div>
+			<button id="choose">Choose Pokemon</button>
+		</div>
+		<div>
+			<button id="enemy">Choose Enemy</button>
+		</div>
+		<div>
+			<button id="restart">Load New Game</button>
+		</div>
+		<div>
+			<button id="instructions">How to Play</button>
+		</div>
+    </footer>
+
+    <!-- Instruction Modal -->
+    <div class="modal-container" id="modalcontainer">
+		<div class="modal" id="modal">
+			<h1>How To Play</h1>
+			<p>
+				1. Click on the Choose Pokemon Button to start the game</br>
+				2. You will get a random Pokemon loaded onto your card with a picture, name and stats</br>
+				3. Next, click on the Choose Enemy Button</br>
+				4. Your Enemy will get a random bokemon loaded onto the enemy card with a picture, name and stats</br>
+				5. Whoever gets the Pokemon with the higher stats wins the round</br>
+				6. After 3 rounds, whoever wins the most rounds in the game</br>
+				7. If your Pokemoen and the enemy pokemon for the round has the same stats, the round becomes a draw and you get an extra round to play </br>
+				8. To start a new gamw, click on the Load New Game button</br>
+			</p>
+			<div class="close">
+				<button id="close">Close Instructions</button>
+			</div>
+		</div>
+    </div>
+    
+    <!-- Game Results Modal -->
+    <div class="game-result-container" id="game-result-container">
+		<div class="game-result-modal" id="game-result-modal">
+			<h1 class="player-won" id="player-won">You WON</h1>
+			<h1 class="player-lost" id="player-lost">You LOST</h1>
+
+			<div class="exit">
+				<button id="exit">Exit</button>
+			</div>
+		</div>
+    </div>
+    <script type="module" src="game.js"></script>
+</body>
+</html>
