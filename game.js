@@ -18,6 +18,8 @@ chooseEnemyButton.disabled = true;
 
 // Restart Button Function to load new game
 function restartGame(){
+    resetUI(playerImage, playerName, playerStat);
+    resetUI(enemyImage, enemyName, enemyStat);
 	playerImage.src = ""
 	playerName.innerText = ""
 	playerStat.innerText = ""
@@ -29,6 +31,13 @@ function restartGame(){
 	playerWin = 0
 	enemyWin = 0
 	choosePokemonButton.disabled = false
+}
+
+// Reset UI for player or enemy
+function resetUI(image, name, stat) {
+    image.src = "";
+    name.innerText = "";
+    stat.innerText = "";
 }
 
 // function to select pokemon
