@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Lato:wght@700&display=swap');
+
+*{
+	font-family: 'bungee', cursive;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+:root{
+	--main-orange-color: #ffa629;
+	--main-black-color: rgba(0,0,0,0.8);
+	--main-grey-color: #2f3030:
+}
+.logo-img{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 30%;
+}
+.game-area{
+	margin: 25px 0;
+	background-color: #bdeeff;
+	display:flex;
+	justify-content: space-around;
+	padding: 40px 0 10px;
+}
+.card{
+	height: 400px;
+	width: 500px;
+	border: 15px solid #d4d4d4;
+	background-color: #fff;
+	border-radius: 12px;
+}
+.pokemon-info{
+	display: flex;
+	justify-content: space-around;
+	margin-top: 10px;
+}
+p{
+	font-size: 20px;
+	color: var(--main-grey-color);
+}
+p span{
+	color: #00698c;
+}
+h4{
+	text-align: center;
+	color: #00698c;
+	font-size: 35px;
+}
+img{
+	width: 70%;
+	display: block;
+	margin: auto;
+}
+footer{
+	display: flex;
+	justify-content: space-around;
+}
+button{
+	background-color: var(--main-orange-color);
+	padding: 20px 25px;
+	font-size: 18px;
+	border: none;
+	color: #303030;
+	margin-top: 30px;
+	cursor: pointer;
+	transition: ease-in-out 0.3s;
+	border-radius: 7px;
+	box-shadow: 0 2px 4px;
+}
+button:hover{
+	background-color: #ed8e09;
+	padding: 30px 35px;
+	font-size: 22px;
+	color: black;
+}
+
+/* Instruction Modal */
+.modal-container{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: var(--main-black-color);
+	justify-content: center;
+	align-items: center;
+	display: none;
+}
+.modal{
+	background-color: #bdeeff;
+	width: 35%;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px;
+	padding: 40px;
+	margin: 20px auto;
+}
+.modal h1{
+	margin-bottom: 20px;
+	text-align: center;
+	color: var(--main-grey-color);
+}
+.modal p{
+	font-family: 'Lato', sans-serif;
+	font-weight: 700;
+	line-height: 40px;
+}
+.modal .close{
+	text-align: center
+}
+.display-modal-container{
+	display: flex;
+}
+
+/* Result Modal */
+.game-result-container{
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	background-color: var(--main-black-color);
+	justify-content: center;
+	align-items: center;
+	display: none;
+}
+.game-result-modal{
+	background-color: var(--main-orange-color);
+	width: 50%;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px;
+	padding: 40px;
+}
+.game-result-modal h1{
+	margin-bottom: 20px;
+	text-align: center;
+	color: #00588F;
+	font-size: 6em;
+}
+.game-result-modal .exit{
+	text-align: center;
+}
+.game-result-modal button{
+	background-color: var(--main-grey-color);
+	color: #fff;
+	box-shadow: 0 0 0;
+}
+.player-won,
+.player-lost{
+	display: none;
+}
+.display-result-content{
+	display: block;
+}
+.player-status{
+	display:block;
+}
+audio{
+	display: none;
+}
