@@ -66,3 +66,57 @@ function playerRound(){
     choosePokemonButton.disabled = true;
     chooseEnemyButton.disabled = false;
 }
+
+// function to select enemy pokemon
+function enemyRound(){
+    // fetch data from pokemon api
+    function getPokemons(){
+        fetch("https://pokeapi.co/api/v2/pokemon?limit=1")
+        .then(res => res.json())
+        .then(function(pokemonData){
+            pokemonData.results.forEach(function(pokemon){
+                getPokemonData(pokemon)
+            })
+        })
+    }
+    getPokemons()
+    function getPokemonData(pokemon){
+        const randomNumber = Math.floor(Math.random() * 151) + 1;
+        let url = `https://pokeapi.co/api/v2/pokemon${randomNumber}`
+        fetch(url)
+        .then(res => res.json())
+        .then(pokemonData => {
+            showPokemon(pokemonData)
+        })
+    }
+    function showPokemon(pokemonData){
+        // display pokemon selection on UI
+        enemyImage.src = pokemonData.sprites.other ["official-artwork"] ["front-default"]
+		enemyName.innerText = pokemonData.forms[0].name
+		enemyStat.innerText = pokemonData.stats[0].base_stat
+        compareRound();
+        setTimeout(() => {
+            checkGame()
+        }, 500);
+    }
+    choosePokemonButton.disabled = true;
+    chooseEnemyButton.disabled = false;
+}
+
+// compare winner of round
+let playerWin = 0
+let enemyWin = 0
+function compareRound(){
+    let playerStatText = parseInt(playerStat.innerText)
+	let enemyStatText = parseInt(enemyStat.innerText)
+	if (playerStatText > 0 && enemyStatText > 0 && playerStatText > enemyStatText) {
+		playerWin++
+		playerCount.innerText = playerWin
+	}
+	else if (playerStatText > 0 && enemyStatText > 0 && playerStatText < enemyStatText){
+		enemyWin++
+		enemyCount.innerText = enemyWin
+	} else if (playerStatText > 0 && enemyStatText > 0 && playerStatText == enemyStatText) {
+		console.log("draw")
+	}
+}
