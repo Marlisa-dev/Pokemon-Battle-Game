@@ -121,5 +121,32 @@ function compareRound(){
 	}
 }
 
+// Check who has the most wins and select winner of the game
+function checkGame(){
+	let playerCountText = parseInt(playerCount.innerText)
+	let enemyCountText = parseInt(enemyCount.innerText)
+	if ((playerCountText + enemyCountText == 3) && playerCountText > enemyCountText){
+		showWinResult()
+		winnerSound()
+		choosePokemonButton.disabled = true;
+		chooseEnemyButton.disabled = true;
+	} else if ((playerCountText + enemyCountText == 3) && enemyCountText > playerCountText){
+		showLostResult()
+		loserSound()
+		choosePokemonButton.disabled = true;
+		chooseEnemyButton.disabled = true;
+	}
+}
+
+// Sounds Effects for winner or loser
+function winnerSound(){
+	let winnerAudio = new Audio("sounds/winner-sound.mp3")
+	winnerAudio.play()
+}
+function loserSound(){
+	let loserAudio = new Audio("sounds/loser-sound.mp3")
+	loserAudio.play()
+}
+
 // TODO: Refactor functions for player round and enemy round
 // TODO: Consider adding dark mode to UI
