@@ -120,3 +120,6 @@ function compareRound(){
 		console.log("draw")
 	}
 }
+
+// TODO: Refactor functions for player round and enemy round
+// TODO: Consider adding dark mode to UI
