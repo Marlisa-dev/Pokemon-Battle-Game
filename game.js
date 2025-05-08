@@ -1,152 +1,129 @@
-// Get Data from DOM
+// DOM Elements
 const playerCount = document.getElementById("player-count");
 const enemyCount = document.getElementById("enemy-count");
 const choosePokemonButton = document.getElementById("choose");
-const chooseEnemyButton= document.getElementById("enemy");
-const newGameButton= document.getElementById("restart");
-let playerImage = document.getElementById("player-image");
-let playerName= document.getElementById("player-name");
-let playerStat= document.getElementById("player-stat");
-let enemyImage= document.getElementById("enemy-image");
-let enemyName= document.getElementById("enemy-name");
-let enemyStat= document.getElementById("enemy-stat");
+const chooseEnemyButton = document.getElementById("enemy");
+const newGameButton = document.getElementById("restart");
 
-// Initial Status of Enemy Button disabled. It is enabled after you choose your pokemon first
-chooseEnemyButton.disabled = true;
+const playerImage = document.getElementById("player-image");
+const playerName = document.getElementById("player-name");
+const playerStat = document.getElementById("player-stat");
+const enemyImage = document.getElementById("enemy-image");
+const enemyName = document.getElementById("enemy-name");
+const enemyStat = document.getElementById("enemy-stat");
 
-// Event Listeners, Triggers amd Callback Functions
+let playerWin = 0;
+let enemyWin = 0;
 
-// Restart Button Function to load new game
-function restartGame(){
-    resetUI(playerImage, playerName, playerStat);
-    resetUI(enemyImage, enemyName, enemyStat);
-	playerCount.innerText = "0"
-	enemyCount.innerText = "0"
-	playerWin = 0
-	enemyWin = 0
-	choosePokemonButton.disabled = false;
-    // chooseEnemyButton.disabled = true;
+// Initialize Game
+function initGame() {
+  playerWin = 0;
+  enemyWin = 0;
+  updateScores();
+  resetUI(playerImage, playerName, playerStat);
+  resetUI(enemyImage, enemyName, enemyStat);
+  choosePokemonButton.disabled = false;
+  chooseEnemyButton.disabled = true;
 }
 
-// Reset UI for player or enemy
-function resetUI(image, name, stat) {
-    image.src = "";
-    name.innerText = "";
-    stat.innerText = "";
+// Reset individual Pokémon display
+function resetUI(imgEl, nameEl, statEl) {
+  imgEl.src = "";
+  nameEl.innerText = "";
+  statEl.innerText = "";
 }
 
-// function to select pokemon
-function playerRound(){
-    // fetch data from pokemon api
-    function getPokemons(){
-        fetch("https://pokeapi.co/api/v2/pokemon?limit=1")
-        .then(res => res.json())
-        .then(function(pokemonData){
-            pokemonData.results.forEach(function(pokemon){
-                getPokemonData(pokemon)
-            })
-        })
-    }
-    getPokemons()
-    function getPokemonData(pokemon){
-        const randomNumber = Math.floor(Math.random() * 151) + 1;
-        let url = `https://pokeapi.co/api/v2/pokemon${randomNumber}`
-        fetch(url)
-        .then(res => res.json())
-        .then(pokemonData => {
-            showPokemon(pokemonData)
-        })
-    }
-    function showPokemon(pokemonData){
-        // display pokemon selection on UI
-        playerImage.src = pokemonData.sprites.other ["official-artwork"] ["front-default"]
-		playerName.innerText = pokemonData.forms[0].name
-		playerStat.innerText = pokemonData.stats[0].base_stat
-    }
-    choosePokemonButton.disabled = true;
-    chooseEnemyButton.disabled = false;
-}
+// Fetch and display Pokémon (player or enemy)
+function fetchPokemon(isPlayer) {
+  const randomId = Math.floor(Math.random() * 151) + 1;
+  const url = `https://pokeapi.co/api/v2/pokemon/${randomId}`;
 
-// function to select enemy pokemon
-function enemyRound(){
-    // fetch data from pokemon api
-    function getPokemons(){
-        fetch("https://pokeapi.co/api/v2/pokemon?limit=1")
-        .then(res => res.json())
-        .then(function(pokemonData){
-            pokemonData.results.forEach(function(pokemon){
-                getPokemonData(pokemon)
-            })
-        })
-    }
-    getPokemons()
-    function getPokemonData(pokemon){
-        const randomNumber = Math.floor(Math.random() * 151) + 1;
-        let url = `https://pokeapi.co/api/v2/pokemon${randomNumber}`
-        fetch(url)
-        .then(res => res.json())
-        .then(pokemonData => {
-            showPokemon(pokemonData)
-        })
-    }
-    function showPokemon(pokemonData){
-        // display pokemon selection on UI
-        enemyImage.src = pokemonData.sprites.other ["official-artwork"] ["front-default"]
-		enemyName.innerText = pokemonData.forms[0].name
-		enemyStat.innerText = pokemonData.stats[0].base_stat
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      const sprite = data.sprites.other["official-artwork"]["front_default"];
+      const name = data.name;
+      const baseStat = data.stats[0].base_stat;
+
+      if (isPlayer) {
+        renderPokemon(playerImage, playerName, playerStat, sprite, name, baseStat);
+        choosePokemonButton.disabled = true;
+        chooseEnemyButton.disabled = false;
+      } else {
+        renderPokemon(enemyImage, enemyName, enemyStat, sprite, name, baseStat);
         compareRound();
-        setTimeout(() => {
-            checkGame()
-        }, 500);
-    }
+        setTimeout(checkGame, 300);
+      }
+    });
+}
+
+// Render Pokémon data to UI
+function renderPokemon(imgEl, nameEl, statEl, sprite, name, baseStat) {
+  imgEl.src = sprite;
+  nameEl.innerText = name;
+  statEl.innerText = baseStat;
+}
+
+// Compare stats
+function compareRound() {
+  const playerVal = parseInt(playerStat.innerText, 10);
+  const enemyVal = parseInt(enemyStat.innerText, 10);
+
+  if (playerVal > enemyVal) {
+    playerWin++;
+  } else if (enemyVal > playerVal) {
+    enemyWin++;
+  } // tie = no points
+
+  updateScores();
+}
+
+// Update score display
+function updateScores() {
+  playerCount.innerText = playerWin;
+  enemyCount.innerText = enemyWin;
+}
+
+// Check if game has ended
+function checkGame() {
+  const totalRounds = playerWin + enemyWin;
+
+  if (totalRounds >= 3) {
     choosePokemonButton.disabled = true;
-    chooseEnemyButton.disabled = false;
+    chooseEnemyButton.disabled = true;
+
+    if (playerWin > enemyWin) {
+      showWinResult();
+      winnerSound();
+    } else if (enemyWin > playerWin) {
+      showLostResult();
+      loserSound();
+    }
+  }
 }
 
-// compare winner of round
-let playerWin = 0
-let enemyWin = 0
-function compareRound(){
-    let playerStatText = parseInt(playerStat.innerText)
-	let enemyStatText = parseInt(enemyStat.innerText)
-	if (playerStatText > 0 && enemyStatText > 0 && playerStatText > enemyStatText) {
-		playerWin++
-		playerCount.innerText = playerWin
-	}
-	else if (playerStatText > 0 && enemyStatText > 0 && playerStatText < enemyStatText){
-		enemyWin++
-		enemyCount.innerText = enemyWin
-	} else if (playerStatText > 0 && enemyStatText > 0 && playerStatText == enemyStatText) {
-		console.log("draw")
-	}
+// Sound effects
+function winnerSound() {
+  new Audio("sounds/winner-sound.mp3").play();
 }
 
-// Check who has the most wins and select winner of the game
-function checkGame(){
-	let playerCountText = parseInt(playerCount.innerText)
-	let enemyCountText = parseInt(enemyCount.innerText)
-	if ((playerCountText + enemyCountText == 3) && playerCountText > enemyCountText){
-		showWinResult()
-		winnerSound()
-		choosePokemonButton.disabled = true;
-		chooseEnemyButton.disabled = true;
-	} else if ((playerCountText + enemyCountText == 3) && enemyCountText > playerCountText){
-		showLostResult()
-		loserSound()
-		choosePokemonButton.disabled = true;
-		chooseEnemyButton.disabled = true;
-	}
+function loserSound() {
+  new Audio("sounds/loser-sound.mp3").play();
 }
 
-// Sounds Effects for winner or loser
-function winnerSound(){
-	let winnerAudio = new Audio("sounds/winner-sound.mp3")
-	winnerAudio.play()
-}
-function loserSound(){
-	let loserAudio = new Audio("sounds/loser-sound.mp3")
-	loserAudio.play()
+// Placeholder result display (add your own UI logic)
+function showWinResult() {
+  alert("🎉 You win!");
 }
 
-// TODO: Refactor functions for player round and enemy round
-// TODO: Consider adding dark mode to UI
+function showLostResult() {
+  alert("💀 You lose!");
+}
+
+// Event Listeners
+choosePokemonButton.addEventListener("click", () => fetchPokemon(true));
+chooseEnemyButton.addEventListener("click", () => fetchPokemon(false));
+newGameButton.addEventListener("click", initGame);
+
+// Initial setup
+initGame();
