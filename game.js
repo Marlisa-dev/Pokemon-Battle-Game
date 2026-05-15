@@ -110,6 +110,9 @@ function checkGame() {
       showLostResult();
       loserSound();
     }
+  } else {
+    choosePokemonButton.disabled = false;
+    chooseEnemyButton.disabled = true;
   }
 }
 
