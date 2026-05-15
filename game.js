@@ -12,6 +12,17 @@ const enemyImage = document.getElementById("enemy-image");
 const enemyName = document.getElementById("enemy-name");
 const enemyStat = document.getElementById("enemy-stat");
 
+const instructionsButton = document.getElementById("instructions");
+const modalContainer = document.getElementById("modalcontainer");
+const closeButton = document.getElementById("close");
+
+function toggleModal() {
+  modalContainer.classList.toggle("display-modal-container");
+}
+
+instructionsButton.addEventListener("click", toggleModal);
+closeButton.addEventListener("click", toggleModal);
+
 let playerWin = 0;
 let enemyWin = 0;
 

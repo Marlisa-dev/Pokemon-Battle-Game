@@ -90,7 +90,7 @@ button:hover{
 }
 .modal{
 	background-color: #bdeeff;
-	width: 35%;
+	width: 640px;
 	border-radius: 8px;
 	box-shadow: 0 2px 4px;
 	padding: 40px;
